@@ -93,7 +93,7 @@
         console.log(d.getFullYear());
          formatedDate=d.getDate()+"-"+("0" + (d.getMonth() + 1)).slice(-2)+"-"+d.getFullYear();
         console.log("Working");
-       $http.get("http://api.railwayapi.com/v2/between/source/"+$scope.srcStn+"/dest/"+$scope.dstnStn+"/date/"+formatedDate+"/apikey/j2c1llc6jl/").then(function (response) {
+       $http.get("https://api.railwayapi.com/v2/between/source/"+$scope.srcStn+"/dest/"+$scope.dstnStn+"/date/"+formatedDate+"/apikey/j2c1llc6jl/").then(function (response) {
         console.log("inside function");
 
         
@@ -148,7 +148,7 @@ console.log(loc);
   console.log(a[index].to.code);
    console.log(tier);
    console.log(formatedDate);
- $http.get("http://api.railwayapi.com/v2/check-seat/train/"+a[index].number+"/source/"+a[index].from.code+"/dest/"+a[index].to.code+"/date/"+formatedDate+"/class/"+tier+"/quota/GN/apikey/j2c1llc6jl/").then(function (response) {
+ $http.get("https://api.railwayapi.com/v2/check-seat/train/"+a[index].number+"/source/"+a[index].from.code+"/dest/"+a[index].to.code+"/date/"+formatedDate+"/class/"+tier+"/quota/GN/apikey/j2c1llc6jl/").then(function (response) {
 
        $scope.currentStatus=response.data.availability;
 
