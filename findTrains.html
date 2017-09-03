@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  </head>
+  <body>
+   <div class="loader">
+   <div ng-app="formExample">
+<div ng-controller="ExampleController">
+  <form novalidate class="form-group">
+
+    <label>Source Stn<input type="text" ng-model="srcStn"></label><br />
+    <label>Destination Stn<input type="text" ng-model="dstnStn"></label><br />
+      <label>Date<input type="date" ng-model="fdDate"></label><br />
+    <label ng-bind="formatDate(fdDate) |  date:'MM/dd/yyyy'"></label>
+    <button ng-click="update(srcStn,dstnStn,fdDate)">Submit</button>
+  </form>
+<table style="width:100%">
+<tr>
+  
+ 
+  <th>Number</th>
+  <th >Name</th>
+  <th >Src</th>
+  <th >Dstn</th>
+ 
+  <th>1A</th>
+  <th>2A</th>
+  <th>3A</th>
+  <th>SL</th>
+
+</tr>
+<tr ng-repeat="x in status" >
+ 
+  <td >{{x.number}}</td>
+  <td >{{x.name}}</td>
+  <td >{{x.from.code}}</td>
+  <td >{{x.to.code}}</td>
+ <td > <a href="#" ng-click="statusMthd($index,'1A')">{{x.classes[3].available}}</a></td>
+  <td ><a href="#" ng-click="statusMthd($index,'2A')">{{x.classes[2].available}}</a></td>
+  <td ><a href="#" ng-click="statusMthd($index,'3A')">{{x.classes[6].available}}</a></td>
+  <td ><a href="#" ng-click="statusMthd($index,'SL')">{{x.classes[5].available}}</a></td>
+  
+</tr>
+</table>
+ 
+<table style="width:50%">
+<tr>
+
+   <th>Date</th>
+  <th>Status</th>
+
+</tr>
+<tr ng-repeat="x in currentStatus">
+  
+<td>
+  {{x.date}}
+</td>
+<td>
+  
+{{x.status}}
+</td>
+
+</tr>
+</table>  
+
+
+</div></div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  </body>
+  <script>
+
+
+ var app=angular.module('formExample', []);
+    app.controller('ExampleController', ["$scope","$http",function($scope,$http) {
+      $scope.id=0;
+      var gResp="";
+       var formatedDate="";
+        var a=[];
+      $scope.update = function() {
+
+        var d=new Date($scope.fdDate);
+        console.log(d.getFullYear());
+         formatedDate=d.getDate()+"-"+("0" + (d.getMonth() + 1)).slice(-2)+"-"+d.getFullYear();
+        console.log("Working");
+       $http.get("http://api.railwayapi.com/v2/between/source/"+$scope.srcStn+"/dest/"+$scope.dstnStn+"/date/"+formatedDate+"/apikey/j2c1llc6jl/").then(function (response) {
+        console.log("inside function");
+
+        
+        gResp=response;
+        var len=response.data.total;  
+      
+      console.log(d.getDay());
+      var k=0;
+        for(var i=0;i<len;i++){
+            
+       if (response.data.train[i].days[d.getDay()-1].runs=="Y"){
+       
+
+       a[k]=response.data.train[i];
+       k=k+1;
+
+       }
+        console.log(a);  
+  $scope.status=a;
+
+
+      
+       }
+
+console.log("Working");
+
+      }).then(function()
+{
+
+  alert("ERROR");
+
+}
+
+      );
+        
+
+      };
+
+
+      $scope.statusMthd=function(index,tier){
+console.log("OH YEAH");
+
+console.log(index);
+console.log(formatedDate);
+var loc=gResp.data.train;
+console.log(loc);
+
+ var len=gResp.data.total;
+ console.log($scope);
+ console.log(a[index].number);
+ console.log(a[index].from.code);
+  console.log(a[index].to.code);
+   console.log(tier);
+   console.log(formatedDate);
+ $http.get("http://api.railwayapi.com/v2/check-seat/train/"+a[index].number+"/source/"+a[index].from.code+"/dest/"+a[index].to.code+"/date/"+formatedDate+"/class/"+tier+"/quota/GN/apikey/j2c1llc6jl/").then(function (response) {
+
+       $scope.currentStatus=response.data.availability;
+
+           });
+
+
+      };
+
+    }]);
+</script>
+</html>

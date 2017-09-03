@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  </head>
+  <body>
+   <div ng-app="formExample">
+<div ng-controller="ExampleController">
+  <form novalidate class="simple-form">
+    <label>PNR<input type="text" ng-model="pnr"></label><br />
+   
+    
+    <button ng-click="update(pnr)">Submit</button>
+  </form>
+
+  <table style= "width :50%">
+    <tr>
+      <th>Boking Status</th>
+      <th>Current Status</th>
+    </tr>
+    <tr> <td>{{status | json}}</td>
+     <td>{{status | json}}</td></tr>
+
+
+  </table>
+  
+  
+</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  </body>
+  <script>
+
+
+ var app=angular.module('formExample', []);
+    app.controller('ExampleController', ["$scope","$http",function($scope,$http) {
+      
+      
+      $scope.update = function() {
+        console.log("Working");
+       $http.get("http://api.railwayapi.com/v2/pnr-status/pnr/"+$scope.pnr+"/apikey/j2c1llc6jl/").then(function (response) {
+        console.log("inside function");
+        $scope.status=response.data.passengers[0].booking_status;    });
+      };
+
+    }]);
+</script>
+</html>
