@@ -20,7 +20,7 @@
     <label ng-bind="formatDate(fdDate) |  date:'MM/dd/yyyy'"></label>
     <button ng-click="update(srcStn,dstnStn,fdDate)">Submit</button>
   </form>
-<table style="width:100%">
+<table style="width:100%" class="table-bordered">
 <tr>
   
  
@@ -49,7 +49,7 @@
 </tr>
 </table>
  
-<table style="width:50%">
+<table style="width:50%" class="table-bordered">
 <tr>
 
    <th>Date</th>
@@ -120,14 +120,7 @@
 
 console.log("Working");
 
-      }).then(function()
-{
-
-  alert("ERROR");
-
-}
-
-      );
+      });
         
 
       };
