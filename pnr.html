@@ -4,18 +4,22 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="jquery-3.2.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="pnr.css">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
   </head>
   <body>
-   <div ng-app="formExample">
+  <div class="container-fluid contentContainer">
+ <div class="row">
+   <div id="contentdiv" ng-app="formExample">
 <div ng-controller="ExampleController">
-  <form novalidate class="simple-form">
-    <label>PNR<input type="text" ng-model="pnr"></label><br />
+  <form novalidate class="form-group">
+    <label >PNR<input class="form-control" type="text" ng-model="pnr"></label><br />
    
-    
-    <button ng-click="update(pnr)">Submit</button>
+
+    <button class="btn btn-default" ng-click="update(pnr)">Submit</button>
   </form>
 
   <table style= "width :50%">
@@ -31,7 +35,8 @@
   
   
 </div>
-
+</div>
+</div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
